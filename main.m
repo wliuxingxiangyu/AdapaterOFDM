@@ -30,16 +30,18 @@ clf;
 figure(1);
 subplot(2,1,1);
 plot(gain_subc,'-r');
-legend('信道增益');
 hold on;
 stem(bit_alloc,'fill','MarkerSize',3);
 title('Fischer算法');
 ylabel('Bits allocation');
 xlabel('Subcarriers');
+legend('信道增益','比特分配');
+
 subplot(2,1,2);
 stem(power_alloc,'fill','MarkerSize',3);
 ylabel('Power allocation');
 xlabel('Subcarriers');
+legend('功率分配');
 t1=0;
 t1=toc
 %------------------chow------------------------------
@@ -58,16 +60,17 @@ power_alloc=Pt.*(power_alloc./sum(power_alloc));
 figure(2);
 subplot(2,1,1);
 plot(gain_subc,'-r');
-legend('信道增益');
 hold on;
 stem(bit_alloc,'fill','MarkerSize',3);
 title('Chow算法');
 ylabel('Bits allocation');
 xlabel('Subcarriers');
+legend('信道增益','比特分配');
 subplot(2,1,2);
 stem(power_alloc,'fill','MarkerSize',3);
 ylabel('Power allocation');
 xlabel('Subcarriers');
+legend('功率分配');
 %------------------Hughes-Hartogs--------------------
 [bit_alloc, power_alloc]=Hughes_Hartogs(N_subc,Rb,M,BER,N_psd,gain_subc);
 bit_alloc;
@@ -82,14 +85,17 @@ power_alloc=Pt.*(power_alloc./sum(power_alloc));
 figure(3);
 subplot(2,1,1);
 plot(gain_subc,'-r');
-legend('信道增益');
+
 hold on;
 stem(bit_alloc,'fill','MarkerSize',3);
+legend('信道增益','比特分配');
 title('Hughes-Hartogs算法');
 ylabel('Bit allocation');
 xlabel('Subcarriers');
+
 subplot(2,1,2);
 stem(power_alloc,'fill','MarkerSize',3);
+legend('功率分配');
 ylabel('power allocation');
 xlabel('Subcarriers');
-grid on;
+% grid on;
