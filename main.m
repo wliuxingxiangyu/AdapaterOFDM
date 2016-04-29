@@ -1,12 +1,12 @@
 clear all; close all; clc;%echo  off;关闭所有命令文件的显示方式 
 N_subc=50;%子载波数
 BER=1e-4;%误比特率
-gap=-log(5*BER)/1.5; %in dB
-P_av=1;
+gap=-log(5*BER)/1.5; %in dB %信噪比间隙（常量）(dB)gap=5.068只在chow算法中用
+P_av=1;%归一化信号平均功率
 Pt=P_av*N_subc;%总发送功率
 SNR_av=16;
-Rt=128;%要分配的总比特数
-Noise=P_av./10.^(SNR_av./10);
+Rt=128;%要分配的总比特数，总比特数（数据传输速率）
+Noise=P_av./10.^(SNR_av./10);%据SNR求出噪声功率Noise
 %B=1e6;
 %N_psd=Noise./(B/N_subc);
 N_psd=1.6076e-006;%功率频谱密度
@@ -15,8 +15,8 @@ Rb=128;%要分配的总比特数
 %H=random('rayleigh',1,1,N_subc);
 gain_subc=random('rayleigh',1,1,N_subc);
 %------------------plot------------------------------
-%------------------fisher----------------------------
-tic
+%%------------------fisher----------------------------
+tic %tic用来保存当前时间，而后使用toc来记录程序完成时间。
 [bit_alloc power_alloc]=Fischer(N_subc,Rt,Pt,gain_subc);
 bit_alloc;
 power_alloc1=power_alloc;
@@ -46,9 +46,9 @@ xlabel('Subcarriers');
 legend('相对速度','功率分配');
 t1=0;
 t1=toc
-%------------------chow------------------------------
+%%-----------------chow------------------------------
 %subcar_gains=random('rayleigh',1,1,N_subc);
-SNR=(gain_subc.^2)./(Noise*gap); 
+SNR=(gain_subc.^2)./(Noise*gap); %信噪比间隙（常量）(dB)gap=5.068
 [bit_alloc power_alloc Iterate_count]=chow_algo(SNR,N_subc,gap,Rt);
 bit_alloc;
 
@@ -75,10 +75,9 @@ stem(power_alloc,'fill','MarkerSize',3);
 ylabel('Power allocation');
 xlabel('Subcarriers');
 legend('相对速度','功率分配');
-%------------------Hughes-Hartogs--------------------
+%%------------------Hughes-Hartogs--------------------
 [bit_alloc, power_alloc]=Hughes_Hartogs(N_subc,Rb,M,BER,N_psd,gain_subc);
 bit_alloc;
-
 power_alloc1=power_alloc;
 sum_bit=0;
 sum_bit=sum(bit_alloc)

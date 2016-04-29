@@ -1,8 +1,3 @@
-% Chow's Algorithm
-%----------------------
-%Programmed by xia
-%2009年5月21日, 11:52
-%----------------------
 % function [bits_alloc, power_alloc] = chow_algo(SNR,N_subc,gap,target_bits)
 function [bits_alloc, power_alloc,Iterate_count] = chow_algo(SNR,N_subc,gap,target_bits)
 %--------------------input variables -------------------------
@@ -30,7 +25,7 @@ while (total_bits~=target_bits)&&(Iterate_count<Max_count)
     %--------------------------------------------------------------
     Iterate_count=Iterate_count+1;
     N_use=N_subc;
-    temp_bits=log2(1+SNR./(1+margin/gap)); %关键一点，理解SNR是包含gap的，所以对原表达式变形如左！~ 
+    temp_bits=log2(1+SNR./(1+margin/gap)); %关键一点，理解SNR是包含gap的，所以对原表达式变形如左！~
     round_bits=round(temp_bits);
     diff=temp_bits-round_bits;
     %--------------------------------------------------------------
@@ -41,23 +36,23 @@ while (total_bits~=target_bits)&&(Iterate_count<Max_count)
     end
     nuc=length(find(round_bits==0)); %
     N_use=N_subc-nuc; %
-%     %========================Algorithm Alteration========================
-%     diff_total=total_bits-target_bits;
-%     if(2^(diff_total/N_use)>0)
+    %     %========================Algorithm Alteration========================
+    %     diff_total=total_bits-target_bits;
+    %     if(2^(diff_total/N_use)>0)
     margin=margin+10*log10(2^((total_bits-target_bits)/N_use));
-%     else
-%         break;
-%     end
-%     %========??????===========Algorithm Alteration====?????================
-%     if(abs(diff_total)<=10)
-%         break;
-%     end
-%     %==================================END=================================
+    %     else
+    %         break;
+    %     end
+    %     %========??????===========Algorithm Alteration====?????================
+    %     if(abs(diff_total)<=10)
+    %         break;
+    %     end
+    %     %==================================END=================================
 end
 %------------------------------bits alteration--------------------------
 while(total_bits>target_bits)
     use_ind=find(round_bits>0);
-    diff_use=diff(use_ind);  
+    diff_use=diff(use_ind);
     id=find(diff_use==min(diff_use),1); %好好理解索引（序号）的对应关系
     ind_alter=use_ind(id);  %好好理解索引（序号）的对应关系
     round_bits(ind_alter)=round_bits(ind_alter)-1;
@@ -80,17 +75,16 @@ end
 %---------------------------end of file------------------------------
 
 
-    
 
 
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
